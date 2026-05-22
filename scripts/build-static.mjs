@@ -10,6 +10,8 @@ const entriesToCopy = [
   "config.json",
   "assets",
   "loaders",
+  "shuqian",
+  "shuqian_data.json",
 ];
 
 rmSync(outputDir, { recursive: true, force: true });
