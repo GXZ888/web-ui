@@ -78,17 +78,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // 非移动端下自动悬浮左侧区域
     if (!mobileMode) {
-        const pageHeadHeight = element.pageHead.clientHeight;
-        const updateFloatPageHeadMargin = debounce(() => {
-            element.leftArea.style.marginTop = window.scrollY - pageHeadHeight + "px";
-        }, 60);
-        document.addEventListener("scroll", () => {
-            if (window.scrollY >= pageHeadHeight) {
-                updateFloatPageHeadMargin();
-            } else {
-                element.leftArea.style.marginTop = "unset";
-            }
-        });
+        // Sticky behavior is handled by CSS to keep the left column fixed.
     }
 
     /* 生成页脚 ICP 备案信息 */

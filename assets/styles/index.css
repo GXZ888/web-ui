@@ -37,6 +37,7 @@ body {
     color: #4c4948;
     font-family: Linotte, HYZhengYuan, sans-serif;
     font-weight: normal;
+    overscroll-behavior-y: none;
 }
 /* - 全局样式 End */
 
@@ -82,8 +83,9 @@ body {
     position: sticky;
     top: 20px;
     align-self: flex-start;
-
-    transition: margin-top, ease-in, 0.2s;
+    max-height: calc(100vh - 40px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
 }
 
 /* 右侧区域 */
