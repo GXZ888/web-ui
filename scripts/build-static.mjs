@@ -12,6 +12,7 @@ const entriesToCopy = [
   "loaders",
   "shuqian",
   "shuqian_data.json",
+  "chat",
 ];
 
 rmSync(outputDir, { recursive: true, force: true });
