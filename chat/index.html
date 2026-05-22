@@ -188,128 +188,125 @@
             color: #ffffff !important;
         }
 
-        /* 聊天区域与侧边栏直接设置为透明，移除磨砂玻璃块面与边框 */
+        /* 聊天区域与侧边栏的玻璃面板质感，提供清晰背景层 */
         body.preset-mumu-active .chat-pane {
-            background-color: transparent !important; 
-            border-color: transparent !important;
-            box-shadow: none !important;
-            backdrop-filter: none !important;
-            -webkit-backdrop-filter: none !important;
+            background-color: rgba(255, 255, 255, 0.25) !important; 
+            border: 1px solid rgba(255, 255, 255, 0.3) !important;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.08) !important;
+            backdrop-filter: blur(16px) saturate(180%) !important;
+            -webkit-backdrop-filter: blur(16px) saturate(180%) !important;
         }
 
         [data-theme="dark"] body.preset-mumu-active .chat-pane {
-            background-color: transparent !important; 
-            border-color: transparent !important;
+            background-color: rgba(15, 16, 21, 0.25) !important; 
+            border: 1px solid rgba(255, 255, 255, 0.05) !important;
         }
 
         body.preset-mumu-active .sidebar {
-            background-color: transparent !important; 
-            border-color: transparent !important;
-            box-shadow: none !important;
-            backdrop-filter: none !important;
-            -webkit-backdrop-filter: none !important;
+            background-color: rgba(255, 255, 255, 0.25) !important; 
+            border: 1px solid rgba(255, 255, 255, 0.3) !important;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.08) !important;
+            backdrop-filter: blur(16px) saturate(180%) !important;
+            -webkit-backdrop-filter: blur(16px) saturate(180%) !important;
         }
 
         [data-theme="dark"] body.preset-mumu-active .sidebar {
-            background-color: transparent !important; 
-            border-color: transparent !important;
+            background-color: rgba(15, 16, 21, 0.25) !important; 
+            border: 1px solid rgba(255, 255, 255, 0.05) !important;
         }
 
         body.preset-mumu-active .chat-pane-header {
-            background-color: transparent !important;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.15) !important;
+            background-color: rgba(255, 255, 255, 0.1) !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2) !important;
         }
 
         [data-theme="dark"] body.preset-mumu-active .chat-pane-header {
-            background-color: transparent !important;
+            background-color: rgba(0, 0, 0, 0.1) !important;
             border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
         }
 
         body.preset-mumu-active .chat-pane-footer {
-            background-color: transparent !important;
-            border-top: 1px solid rgba(255, 255, 255, 0.15) !important;
+            background-color: rgba(255, 255, 255, 0.1) !important;
+            border-top: 1px solid rgba(255, 255, 255, 0.2) !important;
         }
 
         [data-theme="dark"] body.preset-mumu-active .chat-pane-footer {
-            background-color: transparent !important;
+            background-color: rgba(0, 0, 0, 0.1) !important;
             border-top: 1px solid rgba(255, 255, 255, 0.05) !important;
         }
 
-        /* 气泡完全透明，实现极其现代的空中文字悬浮聊天效果 */
+        /* 气泡高不透明度 (90%)，保证对话文字极度清晰可见，避免被复杂的背景图案干扰 */
         body.preset-mumu-active .message-row.assistant .message-bubble {
-            background: transparent !important; 
-            border: 1px solid transparent !important;
-            backdrop-filter: none !important;
-            -webkit-backdrop-filter: none !important;
-            color: #000000 !important; /* 纯黑配合高对比双层阴影 */
+            background: rgba(255, 255, 255, 0.9) !important; 
+            border: 1px solid rgba(255, 255, 255, 0.8) !important;
+            backdrop-filter: blur(12px) !important;
+            -webkit-backdrop-filter: blur(12px) !important;
+            color: #0f172a !important; /* 深石板灰保证文字极佳易读性 */
             font-weight: 500;
-            text-shadow: 0 1px 4px rgba(255, 255, 255, 0.95), 0 1px 1px rgba(255, 255, 255, 0.95);
-            box-shadow: none !important;
-            padding-left: 0 !important;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04) !important;
+            padding-left: 15px !important;
         }
 
         [data-theme="dark"] body.preset-mumu-active .message-row.assistant .message-bubble {
-            background: transparent !important; 
-            border: 1px solid transparent !important;
-            color: #ffffff !important; /* 纯白配合高对比双层阴影 */
-            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.95), 0 1px 1px rgba(0, 0, 0, 0.95);
+            background: rgba(30, 32, 42, 0.9) !important; 
+            border: 1px solid rgba(255, 255, 255, 0.08) !important;
+            color: #f8fafc !important; /* 珍珠白 */
         }
 
         body.preset-mumu-active .message-row.user .message-bubble {
-            background: transparent !important;
-            border: 1px solid transparent !important;
-            backdrop-filter: none !important;
-            -webkit-backdrop-filter: none !important;
-            color: #000000 !important;
+            background: linear-gradient(135deg, rgba(73, 177, 245, 0.9) 0%, rgba(122, 192, 240, 0.9) 100%) !important;
+            border: 1px solid rgba(255, 255, 255, 0.4) !important;
+            backdrop-filter: blur(12px) !important;
+            -webkit-backdrop-filter: blur(12px) !important;
+            color: #ffffff !important;
             font-weight: 500;
-            text-shadow: 0 1px 4px rgba(255, 255, 255, 0.95), 0 1px 1px rgba(255, 255, 255, 0.95);
-            box-shadow: none !important;
-            padding-right: 0 !important;
+            text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 15px rgba(73, 177, 245, 0.12) !important;
+            padding-right: 15px !important;
         }
 
         [data-theme="dark"] body.preset-mumu-active .message-row.user .message-bubble {
-            background: transparent !important;
-            border: 1px solid transparent !important;
+            background: linear-gradient(135deg, rgba(30, 64, 175, 0.9) 0%, rgba(37, 99, 235, 0.9) 100%) !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
             color: #ffffff !important;
-            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.95), 0 1px 1px rgba(0, 0, 0, 0.95);
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
         }
 
-        /* 侧边栏项目以及文字的 Legibility 确保 */
+        /* 侧边栏项目悬浮与高亮卡片 */
         body.preset-mumu-active .sidebar-item {
-            color: #000000 !important;
-            text-shadow: 0 1px 3px rgba(255, 255, 255, 0.9) !important;
+            color: #344c67 !important;
+            text-shadow: 0 1px 1px rgba(255, 255, 255, 0.8) !important;
         }
 
         [data-theme="dark"] body.preset-mumu-active .sidebar-item {
-            color: #ffffff !important;
-            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9) !important;
+            color: #e2e8f0 !important;
+            text-shadow: 0 1px 1px rgba(0, 0, 0, 0.8) !important;
         }
 
-        /* 输入框底框透明，采用极简的下边框分割线条指示输入区 */
+        /* 输入框高雅玻璃板底色，便于视觉对齐与键盘输入 */
         body.preset-mumu-active .chat-input-wrapper {
-            background-color: transparent !important;
-            border: none !important;
-            border-bottom: 2px solid rgba(255, 255, 255, 0.3) !important;
-            backdrop-filter: none !important;
-            -webkit-backdrop-filter: none !important;
-            border-radius: 0 !important;
-            padding: 8px 0 !important;
-            box-shadow: none !important;
+            background-color: rgba(255, 255, 255, 0.6) !important;
+            border: 1.5px solid rgba(255, 255, 255, 0.6) !important;
+            backdrop-filter: blur(12px) !important;
+            -webkit-backdrop-filter: blur(12px) !important;
+            border-radius: 18px !important;
+            padding: 12px 18px !important;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04) !important;
         }
 
         [data-theme="dark"] body.preset-mumu-active .chat-input-wrapper {
-            background-color: transparent !important;
-            border-bottom: 2px solid rgba(255, 255, 255, 0.1) !important;
+            background-color: rgba(22, 23, 30, 0.6) !important;
+            border: 1.5px solid rgba(255, 255, 255, 0.08) !important;
         }
 
         body.preset-mumu-active .chat-input-wrapper:focus-within {
-            background-color: transparent !important;
-            border-bottom-color: var(--primary-color) !important;
+            background-color: rgba(255, 255, 255, 0.8) !important;
+            border-color: var(--primary-color) !important;
         }
 
         [data-theme="dark"] body.preset-mumu-active .chat-input-wrapper:focus-within {
-            background-color: transparent !important;
-            border-bottom-color: var(--primary-color) !important;
+            background-color: rgba(22, 23, 30, 0.8) !important;
+            border-color: var(--primary-color) !important;
         }
 
         p, span, h1, h2, h3, h4, input, textarea {
