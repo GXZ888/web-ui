@@ -79,6 +79,9 @@ body {
     max-width: 350px;
     width: 30%;
     margin-right: 16px;
+    position: sticky;
+    top: 20px;
+    align-self: flex-start;
 
     transition: margin-top, ease-in, 0.2s;
 }
