@@ -108,6 +108,22 @@
             height: 100vh;
             overflow: hidden;
             cursor: url(https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/cursor/normal.cur), auto;
+            transition: background-image 0.5s ease, background-color 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        /* 动态人设切换背景 */
+        body.preset-mumu-active {
+            background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.45) 100%), 
+                              url(../assets/images/backgrounds/mumu_bg.jpg);
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+        
+        [data-theme="dark"] body.preset-mumu-active {
+            background-image: linear-gradient(to bottom, rgba(15, 16, 21, 0.55) 0%, rgba(15, 16, 21, 0.8) 100%), 
+                              url(../assets/images/backgrounds/mumu_bg.jpg);
         }
 
         p, span, h1, h2, h3, h4, input, textarea {
@@ -1753,6 +1769,13 @@
         function loadActiveSession() {
             const session = sessions.find(s => s.id === activeSessionId);
             if (!session) return;
+
+            // 动态切换背景图
+            if (session.presetType === "mumu") {
+                document.body.classList.add("preset-mumu-active");
+            } else {
+                document.body.classList.remove("preset-mumu-active");
+            }
 
             // 同步模型标签
             const modelNameSpan = document.getElementById("current-model-name");
