@@ -1,0 +1,1222 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>书签阁 · 收藏夹 - ACG-Home</title>
+    <link rel="icon" href="../favicon.ico" />
+    <link rel="stylesheet" href="https://cdn.staticfile.net/font-awesome/6.0.0/css/all.min.css" />
+    
+    <style>
+        /* - 字体定义 */
+        @font-face {
+            font-family: "Linotte";
+            src: url("../assets/fonts/Linotte\ Regular.otf") format("opentype");
+            font-weight: normal;
+        }
+        @font-face {
+            font-family: "Linotte";
+            src: url("../assets/fonts/Linotte\ Bold.otf") format("opentype");
+            font-weight: bold;
+        }
+        @font-face {
+            font-family: "HYZhengYuan";
+            src: url("../assets/fonts/HYZhengYuan-55W.ttf") format("opentype");
+            font-weight: normal;
+        }
+
+        /* - CSS 变量 & 主题系统 */
+        :root {
+            --bg-color: #f5f7fb;
+            --text-color: #344c67;
+            --text-muted: #7f8c9d;
+            --primary-color: #49b1f5;
+            --primary-hover: #7ac0f0;
+            --primary-light: rgba(73, 177, 245, 0.1);
+            
+            /* Glassmorphism Design Tokens */
+            --glass-bg: rgba(255, 255, 255, 0.75);
+            --glass-bg-hover: rgba(255, 255, 255, 0.9);
+            --glass-border: rgba(255, 255, 255, 0.45);
+            --glass-shadow: 0 8px 32px 0 rgba(73, 177, 245, 0.08);
+            --card-shadow-hover: 0 12px 30px rgba(73, 177, 245, 0.16);
+            --border-color: rgba(73, 177, 245, 0.15);
+            
+            --sidebar-active-bg: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
+            --sidebar-active-text: #0369a1;
+            
+            --toast-bg: rgba(46, 204, 113, 0.9);
+            --toast-text: #ffffff;
+            --badge-bg: #e0f2fe;
+            --badge-text: #0369a1;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #0f1015;
+            --text-color: #e2e8f0;
+            --text-muted: #94a3b8;
+            --primary-color: #49b1f5;
+            --primary-hover: #7ac0f0;
+            --primary-light: rgba(73, 177, 245, 0.2);
+            
+            /* Glassmorphism Dark Tokens */
+            --glass-bg: rgba(22, 23, 30, 0.75);
+            --glass-bg-hover: rgba(28, 30, 40, 0.9);
+            --glass-border: rgba(255, 255, 255, 0.07);
+            --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.35);
+            --card-shadow-hover: 0 12px 30px rgba(73, 177, 245, 0.25);
+            --border-color: rgba(255, 255, 255, 0.08);
+            
+            --sidebar-active-bg: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
+            --sidebar-active-text: #93c5fd;
+            
+            --toast-bg: rgba(39, 174, 96, 0.95);
+            --toast-text: #ffffff;
+            --badge-bg: rgba(147, 197, 253, 0.15);
+            --badge-text: #93c5fd;
+        }
+
+        /* - 全局重置 */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Linotte, HYZhengYuan, -apple-system, sans-serif;
+            transition: background-color 0.35s cubic-bezier(0.25, 1, 0.5, 1), 
+                        border-color 0.35s cubic-bezier(0.25, 1, 0.5, 1), 
+                        box-shadow 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        body {
+            background-color: var(--bg-color);
+            background-image: radial-gradient(circle at 50% 0px, rgba(73, 177, 245, 0.12) 0%, transparent 60%);
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            overflow-x: hidden;
+            cursor: url(https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/cursor/normal.cur), auto;
+        }
+
+        p, span, h1, h2, h3, h4, input {
+            cursor: url(https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/cursor/texto.cur), auto;
+        }
+
+        a, button, .sidebar-item {
+            cursor: url(https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/cursor/ayuda.cur), auto;
+            text-decoration: none;
+        }
+
+        /* - 顶部精美 Banner */
+        .hero-banner {
+            position: relative;
+            width: 100%;
+            height: 280px;
+            background-image: linear-gradient(to bottom, rgba(15, 16, 21, 0.3) 0%, rgba(15, 16, 21, 0.6) 100%), 
+                              url(../assets/images/backgrounds/page-head/wallhaven-9delkw.jpg);
+            background-size: cover;
+            background-position: center 75%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #ffffff;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            z-index: 10;
+        }
+
+        .hero-banner::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 40px;
+            background: linear-gradient(to top, var(--bg-color), transparent);
+            pointer-events: none;
+        }
+
+        .hero-title {
+            font-size: 36px;
+            font-weight: bold;
+            text-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 8px;
+            letter-spacing: 2px;
+        }
+
+        .hero-title i {
+            animation: floatIcon 3s infinite ease-in-out;
+            color: #e3f2fd;
+        }
+
+        .hero-desc {
+            font-size: 16px;
+            opacity: 0.9;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            letter-spacing: 1px;
+        }
+
+        @keyframes floatIcon {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-6px) rotate(8deg); }
+        }
+
+        /* 精美返回按钮 */
+        .btn-back-home {
+            position: absolute;
+            top: 25px;
+            left: 5%;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            border-radius: 30px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: #ffffff;
+            font-size: 14px;
+            font-weight: bold;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-back-home:hover {
+            background: rgba(255, 255, 255, 0.35);
+            transform: translateX(-4px);
+            box-shadow: 0 6px 20px rgba(255, 255, 255, 0.15);
+        }
+
+        /* 精美快切主题按钮 */
+        .btn-toggle-theme {
+            position: absolute;
+            top: 25px;
+            right: 5%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: #ffffff;
+            font-size: 16px;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-toggle-theme:hover {
+            background: rgba(255, 255, 255, 0.35);
+            transform: rotate(30deg) scale(1.08);
+            box-shadow: 0 6px 20px rgba(255, 255, 255, 0.15);
+        }
+
+        /* - 主体容器 */
+        .main-layout {
+            display: flex;
+            width: 90%;
+            max-width: 1400px;
+            margin: 20px auto 60px auto;
+            gap: 24px;
+            flex: 1;
+            position: relative;
+            z-index: 5;
+        }
+
+        /* - 左侧侧边栏 */
+        .sidebar {
+            width: 280px;
+            flex-shrink: 0;
+            background-color: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: var(--glass-shadow);
+            height: calc(100vh - 120px);
+            position: sticky;
+            top: 30px;
+            overflow-y: auto;
+            backdrop-filter: blur(16px) saturate(180%);
+            -webkit-backdrop-filter: blur(16px) saturate(180%);
+            scrollbar-width: thin;
+        }
+
+        .sidebar::-webkit-scrollbar {
+            width: 5px;
+        }
+        .sidebar::-webkit-scrollbar-thumb {
+            background: var(--primary-hover);
+            border-radius: 4px;
+        }
+
+        .sidebar-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 2px dashed var(--border-color);
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .sidebar-item a {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 11px 16px;
+            border-radius: 12px;
+            color: var(--text-color);
+            font-size: 13px;
+            font-weight: bold;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            border: 1px solid transparent;
+        }
+
+        .sidebar-item a:hover {
+            background-color: var(--primary-light);
+            color: var(--primary-color);
+            padding-left: 20px;
+            border-color: rgba(73, 177, 245, 0.1);
+        }
+
+        .sidebar-item.active a {
+            background: var(--sidebar-active-bg);
+            color: var(--sidebar-active-text);
+            padding-left: 22px;
+            border-color: rgba(73, 177, 245, 0.2);
+            box-shadow: 0 4px 12px rgba(73, 177, 245, 0.15);
+        }
+
+        .sidebar-count {
+            font-size: 11px;
+            background-color: rgba(73, 177, 245, 0.12);
+            color: var(--primary-color);
+            padding: 3px 8px;
+            border-radius: 20px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-item.active .sidebar-count {
+            background-color: var(--sidebar-active-text);
+            color: #ffffff;
+        }
+
+        /* - 右侧内容区 */
+        .content-area {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            min-width: 0;
+        }
+
+        /* - 搜索栏 */
+        .search-container {
+            background-color: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: var(--glass-shadow);
+            backdrop-filter: blur(16px) saturate(180%);
+            -webkit-backdrop-filter: blur(16px) saturate(180%);
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .search-box-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+            width: 100%;
+        }
+
+        .search-box-wrapper i.search-icon {
+            position: absolute;
+            left: 22px;
+            color: var(--primary-color);
+            font-size: 18px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 16px 54px 16px 58px;
+            border: 2px solid var(--border-color);
+            border-radius: 14px;
+            background-color: rgba(73, 177, 245, 0.03);
+            color: var(--text-color);
+            font-size: 15px;
+            font-weight: bold;
+            outline: none;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        .search-input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 15px rgba(73, 177, 245, 0.25);
+            background-color: var(--glass-bg-hover);
+        }
+
+        .search-clear-btn {
+            position: absolute;
+            right: 20px;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 18px;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            transition: all 0.2s ease;
+        }
+
+        .search-clear-btn:hover {
+            color: var(--primary-color);
+            background-color: var(--primary-light);
+            transform: scale(1.1);
+        }
+
+        .search-info-bar {
+            font-size: 13px;
+            color: var(--text-color);
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background-color: rgba(73, 177, 245, 0.05);
+            padding: 8px 16px;
+            border-radius: 10px;
+            border-left: 3px solid var(--primary-color);
+            width: fit-content;
+        }
+
+        /* - 书签展示区 */
+        .bookmark-section {
+            background-color: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 28px;
+            box-shadow: var(--glass-shadow);
+            scroll-margin-top: 50px;
+            backdrop-filter: blur(16px) saturate(180%);
+            -webkit-backdrop-filter: blur(16px) saturate(180%);
+            animation: cardFadeIn 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        @keyframes cardFadeIn {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-header {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--text-color);
+            position: relative;
+            padding-bottom: 12px;
+        }
+
+        .section-header::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary-color) 0%, transparent 100%);
+            opacity: 0.6;
+        }
+
+        .section-header i {
+            color: var(--primary-color);
+            font-size: 20px;
+        }
+
+        .section-header .section-count {
+            font-size: 12px;
+            font-weight: bold;
+            color: var(--badge-text);
+            background-color: var(--badge-bg);
+            padding: 3px 10px;
+            border-radius: 20px;
+            margin-left: auto;
+        }
+
+        /* - 书签网格 & 卡片 */
+        .bookmark-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 18px;
+        }
+
+        .bookmark-card {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 14px 18px;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            background-color: rgba(73, 177, 245, 0.02);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.01);
+        }
+
+        .bookmark-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--primary-color), var(--primary-hover));
+            transform: scaleY(0);
+            transition: transform 0.3s ease;
+            border-radius: 0 4px 4px 0;
+        }
+
+        .bookmark-card:hover {
+            transform: translateY(-4px) scale(1.01);
+            border-color: var(--primary-color);
+            box-shadow: var(--card-shadow-hover);
+            background-color: var(--glass-bg-hover);
+        }
+
+        .bookmark-card:hover::before {
+            transform: scaleY(1);
+        }
+
+        /* 书签 Favicon */
+        .bookmark-favicon {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(73, 177, 245, 0.08);
+            overflow: hidden;
+            font-weight: bold;
+            font-size: 16px;
+            color: #ffffff;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .bookmark-card:hover .bookmark-favicon {
+            transform: scale(1.1) rotate(6deg);
+        }
+
+        .bookmark-favicon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .bookmark-favicon.letter-avatar {
+            background: linear-gradient(135deg, var(--primary-color) 0%, #a3e4d7 100%);
+            text-transform: uppercase;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.15);
+        }
+
+        .bookmark-info {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            min-width: 0;
+            flex-grow: 1;
+            padding-right: 18px; /* space for copy icon */
+        }
+
+        .bookmark-name {
+            font-size: 14px;
+            font-weight: bold;
+            color: var(--text-color);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            transition: color 0.3s ease;
+        }
+
+        .bookmark-card:hover .bookmark-name {
+            color: var(--primary-color);
+        }
+
+        .bookmark-url {
+            font-size: 11px;
+            color: var(--text-muted);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* 精美悬浮复制复制按钮 */
+        .bookmark-copy-btn {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%) scale(0.8);
+            opacity: 0;
+            color: var(--text-muted);
+            font-size: 14px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 6px;
+            border-radius: 50%;
+            background-color: rgba(73, 177, 245, 0.05);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            z-index: 10;
+        }
+
+        .bookmark-card:hover .bookmark-copy-btn {
+            opacity: 1;
+            transform: translateY(-50%) scale(1);
+        }
+
+        .bookmark-copy-btn:hover {
+            color: var(--primary-color);
+            background-color: var(--primary-light);
+            transform: translateY(-50%) scale(1.15);
+        }
+
+        /* - 无搜索结果 */
+        .no-results {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 20px;
+            background-color: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            box-shadow: var(--glass-shadow);
+            text-align: center;
+            color: var(--text-muted);
+            gap: 16px;
+            backdrop-filter: blur(16px) saturate(180%);
+            -webkit-backdrop-filter: blur(16px) saturate(180%);
+            animation: cardFadeIn 0.4s ease;
+        }
+
+        .no-results i {
+            font-size: 56px;
+            color: var(--primary-hover);
+            animation: pulseIcon 2s infinite ease-in-out;
+        }
+
+        @keyframes pulseIcon {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.08); opacity: 1; }
+        }
+
+        .no-results p {
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        /* - 动漫水印贴纸 */
+        .anime-sticker {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            width: 180px;
+            height: 220px;
+            background: url(../assets/images/content_page_sticker.png) no-repeat center;
+            background-size: contain;
+            opacity: 0.12;
+            pointer-events: none;
+            z-index: 1000;
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+
+        body:hover .anime-sticker {
+            opacity: 0.20;
+            transform: translateY(-3px);
+        }
+
+        /* - 自定义精美 Toast 提示 */
+        .custom-toast {
+            position: fixed;
+            bottom: 40px;
+            left: 50%;
+            transform: translate(-50%, 30px);
+            background: var(--toast-bg);
+            color: var(--toast-text);
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 14px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 9999;
+            transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+
+        .custom-toast.show {
+            opacity: 1;
+            transform: translate(-50%, 0);
+        }
+
+        /* - 响应式设计 (移动端适配) */
+        @media (max-width: 991px) {
+            .hero-banner {
+                height: 220px;
+            }
+
+            .hero-title {
+                font-size: 28px;
+            }
+
+            .hero-desc {
+                font-size: 13px;
+            }
+
+            .btn-back-home {
+                padding: 8px 16px;
+                top: 15px;
+                font-size: 13px;
+            }
+
+            .btn-toggle-theme {
+                width: 36px;
+                height: 36px;
+                top: 15px;
+                font-size: 14px;
+            }
+
+            .main-layout {
+                flex-direction: column;
+                width: 95%;
+                gap: 16px;
+                margin-top: 10px;
+                margin-bottom: 40px;
+            }
+
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: sticky;
+                top: 10px;
+                z-index: 90;
+                padding: 12px;
+                border-radius: 16px;
+            }
+
+            .sidebar-title {
+                display: none;
+            }
+
+            .sidebar-menu {
+                flex-direction: row;
+                overflow-x: auto;
+                gap: 6px;
+                padding-bottom: 4px;
+                scrollbar-width: none; /* Hide scrollbar for clean layout */
+            }
+
+            .sidebar-menu::-webkit-scrollbar {
+                display: none;
+            }
+
+            .sidebar-item {
+                flex-shrink: 0;
+            }
+
+            .sidebar-item a {
+                padding: 8px 14px;
+                border-radius: 10px;
+                font-size: 12px;
+            }
+
+            .sidebar-item a:hover,
+            .sidebar-item.active a {
+                padding-left: 14px;
+                padding-right: 14px;
+            }
+
+            .sidebar-count {
+                margin-left: 6px;
+                padding: 1px 5px;
+                font-size: 9px;
+            }
+
+            .search-container {
+                padding: 16px;
+                border-radius: 16px;
+            }
+
+            .search-input {
+                padding: 12px 42px 12px 46px;
+                font-size: 14px;
+            }
+
+            .search-box-wrapper i.search-icon {
+                left: 16px;
+                font-size: 16px;
+            }
+
+            .bookmark-section {
+                padding: 18px;
+                border-radius: 16px;
+            }
+
+            .bookmark-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                gap: 12px;
+            }
+
+            .bookmark-card {
+                padding: 12px;
+                border-radius: 12px;
+            }
+
+            .bookmark-copy-btn {
+                opacity: 1;
+                transform: translateY(-50%) scale(0.9);
+            }
+
+            .anime-sticker {
+                display: none; /* Hide on mobile to keep page clean */
+            }
+        }
+    </style>
+</head>
+<body data-theme="light">
+
+    <!-- 顶部精美 Banner -->
+    <header class="hero-banner">
+        <a href="../index.html" class="btn-back-home">
+            <i class="fa-solid fa-circle-arrow-left"></i>
+            <span>返回主页</span>
+        </a>
+        <button class="btn-toggle-theme" id="btn-toggle-theme" title="切换深色/浅色模式">
+            <i class="fa-solid fa-circle-half-stroke"></i>
+        </button>
+        <div class="hero-title">
+            <i class="fa-solid fa-bookmark"></i>
+            <span>书签阁 · 收藏夹</span>
+        </div>
+        <p class="hero-desc"> Stay Hungry, Stay Foolish · 发现好网站 </p>
+    </header>
+
+    <!-- 主体容器 -->
+    <main class="main-layout">
+        <!-- 左侧侧边栏导航 -->
+        <aside class="sidebar">
+            <div class="sidebar-title">
+                <i class="fa-solid fa-compass"></i>
+                <span>分类导航</span>
+            </div>
+            <ul class="sidebar-menu" id="sidebar-menu">
+                <!-- 动态生成 -->
+            </ul>
+        </aside>
+
+        <!-- 右侧内容区 -->
+        <div class="content-area">
+            <!-- 搜索框 -->
+            <div class="search-container">
+                <div class="search-box-wrapper">
+                    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                    <input type="text" id="search-input" class="search-input" placeholder="输入名称、网址或分类进行搜索..." autocomplete="off" />
+                    <button class="search-clear-btn" id="search-clear-btn"><i class="fa-solid fa-circle-xmark"></i></button>
+                </div>
+                <div class="search-info-bar" id="search-stats">
+                    <i class="fa-solid fa-circle-info"></i>
+                    <span id="search-stats-text">正在精心整理您的书签库...</span>
+                </div>
+            </div>
+
+            <!-- 书签展示容器 -->
+            <div id="bookmark-container">
+                <!-- 动态生成 -->
+            </div>
+        </div>
+    </main>
+
+    <!-- 动漫水印贴纸 -->
+    <div class="anime-sticker"></div>
+
+    <script>
+        // - 主题同步与切换机制
+        function updateTheme() {
+            let targetColor = localStorage.getItem("theme.color") || "light";
+            if (targetColor === "!autoSwitch") {
+                if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+                    targetColor = "dark";
+                } else {
+                    targetColor = "light";
+                }
+            }
+            document.body.setAttribute("data-theme", targetColor);
+        }
+
+        // 双击或点击切换主题 (在收藏夹页面，给他们快捷切换主题的完美享受)
+        document.getElementById("btn-toggle-theme").addEventListener("click", () => {
+            let current = localStorage.getItem("theme.color") || "light";
+            if (current === "!autoSwitch") {
+                current = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+            }
+            const next = current === "light" ? "dark" : "light";
+            localStorage.setItem("theme.color", next);
+            updateTheme();
+            showToast(`已切换至 ${next === 'dark' ? '深色' : '浅色'} 视界 ✧(≖ ◡ ≖✿)`);
+        });
+
+        // 监听本地存储变更与系统主题变更
+        window.addEventListener("storage", updateTheme);
+        window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", updateTheme);
+        updateTheme(); // 初始化执行
+
+        // - 数据加载 & 交互逻辑
+        let bookmarkData = [];
+
+        async function initBookmarks() {
+            try {
+                const response = await fetch("../shuqian_data.json");
+                if (!response.ok) {
+                    throw new Error("无法读取书签数据。");
+                }
+                bookmarkData = await response.json();
+                
+                // 渲染页面组件
+                renderSidebar(bookmarkData);
+                renderBookmarks(bookmarkData);
+                updateStats(bookmarkData);
+                
+                // 启用搜索监听与重置键监听
+                const searchInput = document.getElementById("search-input");
+                const clearBtn = document.getElementById("search-clear-btn");
+                
+                searchInput.addEventListener("input", (e) => {
+                    handleSearch(e);
+                    if (e.target.value) {
+                        clearBtn.style.display = "flex";
+                    } else {
+                        clearBtn.style.display = "none";
+                    }
+                });
+
+                clearBtn.addEventListener("click", () => {
+                    searchInput.value = "";
+                    clearBtn.style.display = "none";
+                    searchInput.dispatchEvent(new Event("input"));
+                    searchInput.focus();
+                });
+                
+                // 侧边栏滚动高亮监听
+                setupScrollSpy();
+            } catch (error) {
+                console.error("加载书签数据失败:", error);
+                const stats = document.getElementById("search-stats-text");
+                stats.innerText = "读取书签数据失败，请检查 [shuqian_data.json] 是否存在且有效。";
+                stats.style.color = "#ff4d4f";
+            }
+        }
+
+        // 获取显示首字母，如果是中文字符，则取第一个，字母则转化为大写
+        defFaviconChar = (name) => {
+            if (!name) return "★";
+            const first = name.trim().charAt(0);
+            return first;
+        }
+
+        // 获取域名，用于展示
+        getDomain = (url) => {
+            try {
+                return new URL(url).hostname;
+            } catch (e) {
+                return url;
+            }
+        }
+
+        // 渲染左侧分类菜单
+        function renderSidebar(data) {
+            const sidebar = document.getElementById("sidebar-menu");
+            sidebar.innerHTML = "";
+
+            data.forEach((category, index) => {
+                const li = document.createElement("li");
+                li.className = `sidebar-item ${index === 0 ? 'active' : ''}`;
+                li.id = `sidebar-item-${index}`;
+                li.innerHTML = `
+                    <a href="#section-${index}" onclick="scrollToSection(event, ${index})">
+                        <span>${category.name}</span>
+                        <span class="sidebar-count">${category.bookmarks.length}</span>
+                    </a>
+                `;
+                sidebar.appendChild(li);
+            });
+        }
+
+        // 渲染主书签区域
+        function renderBookmarks(data) {
+            const container = document.getElementById("bookmark-container");
+            container.innerHTML = "";
+
+            if (data.length === 0) {
+                container.innerHTML = `
+                    <div class="no-results">
+                        <i class="fa-regular fa-face-frown"></i>
+                        <p>未找到匹配的书签，换个关键词试试吗？(＞﹏＜)</p>
+                    </div>
+                `;
+                return;
+            }
+
+            data.forEach((category, catIndex) => {
+                const section = document.createElement("section");
+                section.className = "bookmark-section";
+                section.id = `section-${catIndex}`;
+                section.setAttribute("data-index", catIndex);
+                section.style.marginBottom = "24px";
+
+                const header = document.createElement("div");
+                header.className = "section-header";
+                header.innerHTML = `
+                    <i class="fa-regular fa-folder-open"></i>
+                    <span>${category.name}</span>
+                    <span class="section-count">共 ${category.bookmarks.length} 个书签</span>
+                `;
+                section.appendChild(header);
+
+                const grid = document.createElement("div");
+                grid.className = "bookmark-grid";
+
+                category.bookmarks.forEach((bm) => {
+                    const card = document.createElement("a");
+                    card.className = "bookmark-card";
+                    card.href = bm.url;
+                    card.target = "_blank";
+                    card.title = bm.name || "无名站";
+
+                    let favHtml = "";
+                    if (bm.icon && bm.icon.length > 50) {
+                        favHtml = `<div class="bookmark-favicon"><img src="${bm.icon}" alt="" onerror="this.parentNode.classList.add('letter-avatar'); this.parentNode.innerHTML='${defFaviconChar(bm.name)}';" /></div>`;
+                    } else {
+                        favHtml = `<div class="bookmark-favicon letter-avatar">${defFaviconChar(bm.name)}</div>`;
+                    }
+
+                    // 精美卡片结构，包含单独的复制功能
+                    card.innerHTML = `
+                        ${favHtml}
+                        <div class="bookmark-info">
+                            <span class="bookmark-name">${bm.name || '未命名'}</span>
+                            <span class="bookmark-url">${getDomain(bm.url)}</span>
+                        </div>
+                        <button class="bookmark-copy-btn" title="复制网站链接" onclick="copyLink(event, '${bm.url}')">
+                            <i class="fa-solid fa-copy"></i>
+                        </button>
+                    `;
+                    grid.appendChild(card);
+                });
+
+                section.appendChild(grid);
+                container.appendChild(section);
+            });
+        }
+
+        // 复制网页链接，带自定义动画 Toast
+        function copyLink(event, url) {
+            event.preventDefault(); // 阻止超链接跳转
+            event.stopPropagation(); // 阻止冒泡
+            
+            navigator.clipboard.writeText(url).then(() => {
+                showToast("链接已复制到剪切板 ╰(*°▽°*)╯");
+            }).catch(err => {
+                console.error("复制失败:", err);
+                // 备用机制
+                const textArea = document.createElement("textarea");
+                textArea.value = url;
+                document.body.appendChild(textArea);
+                textArea.select();
+                try {
+                    document.execCommand('copy');
+                    showToast("链接已复制到剪切板 ╰(*°▽°*)╯");
+                } catch (e) {
+                    showToast("复制失败，您的浏览器不支持直接复制 (＞﹏＜)");
+                }
+                document.body.removeChild(textArea);
+            });
+        }
+
+        // 自定义精美 Toast 提示
+        function showToast(message) {
+            // 清除旧的 toast
+            const existing = document.querySelector(".custom-toast");
+            if (existing) {
+                existing.remove();
+            }
+
+            const toast = document.createElement("div");
+            toast.className = "custom-toast";
+            toast.innerHTML = `<i class="fa-solid fa-circle-check" style="color: #ffffff;"></i><span>${message}</span>`;
+            document.body.appendChild(toast);
+            
+            // 触发回流动画
+            setTimeout(() => {
+                toast.classList.add("show");
+            }, 30);
+
+            // 定时关闭
+            setTimeout(() => {
+                toast.classList.remove("show");
+                setTimeout(() => {
+                    toast.remove();
+                }, 350);
+            }, 2500);
+        }
+
+        // 更新统计数据
+        function updateStats(data) {
+            let total = 0;
+            data.forEach(c => total += c.bookmarks.length);
+            document.getElementById("search-stats-text").innerText = `已为您精心整理了 ${data.length} 个分类，共计 ${total} 个常用书签`;
+        }
+
+        // 处理实时搜索
+        function handleSearch(event) {
+            const query = event.target.value.toLowerCase().trim();
+            if (!query) {
+                renderSidebar(bookmarkData);
+                renderBookmarks(bookmarkData);
+                updateStats(bookmarkData);
+                return;
+            }
+
+            // 过滤逻辑
+            const filteredData = [];
+            bookmarkData.forEach(cat => {
+                const catMatches = cat.name.toLowerCase().includes(query);
+                const matchedBookmarks = cat.bookmarks.filter(bm => {
+                    const nameMatches = bm.name && bm.name.toLowerCase().includes(query);
+                    const urlMatches = bm.url && bm.url.toLowerCase().includes(query);
+                    return nameMatches || urlMatches;
+                });
+
+                if (catMatches) {
+                    filteredData.push({
+                        name: cat.name,
+                        bookmarks: cat.bookmarks
+                    });
+                } else if (matchedBookmarks.length > 0) {
+                    filteredData.push({
+                        name: cat.name,
+                        bookmarks: matchedBookmarks
+                    });
+                }
+            });
+
+            renderSidebar(filteredData);
+            renderBookmarks(filteredData);
+            
+            // 更新匹配统计数
+            let total = 0;
+            filteredData.forEach(c => total += c.bookmarks.length);
+            document.getElementById("search-stats-text").innerText = `已为您检索到 ${filteredData.length} 个分类，共计 ${total} 个匹配项`;
+        }
+
+        // 侧边栏平滑滚动定位
+        function scrollToSection(event, index) {
+            event.preventDefault();
+            const section = document.getElementById(`section-${index}`);
+            if (section) {
+                // 计算 header 高度以及一些偏置量以防遮挡
+                const isMobile = window.innerWidth <= 991;
+                const offset = isMobile ? 80 : 40;
+                const topPos = section.getBoundingClientRect().top + window.scrollY - offset;
+                
+                window.scrollTo({
+                    top: topPos,
+                    behavior: 'smooth'
+                });
+                
+                // 激活侧边栏高亮
+                document.querySelectorAll(".sidebar-item").forEach(item => item.classList.remove("active"));
+                const sidebarItem = document.getElementById(`sidebar-item-${index}`);
+                if (sidebarItem) {
+                    sidebarItem.classList.add("active");
+                }
+            }
+        }
+
+        // 滚动监听（ScrollSpy）
+        function setupScrollSpy() {
+            window.addEventListener("scroll", () => {
+                const sections = document.querySelectorAll(".bookmark-section");
+                const sidebarItems = document.querySelectorAll(".sidebar-item");
+                
+                let current = "";
+                const isMobile = window.innerWidth <= 991;
+                const offset = isMobile ? 120 : 180;
+
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    if (window.scrollY >= sectionTop - offset) {
+                        current = section.id.replace("section-", "");
+                    }
+                });
+
+                if (current !== "") {
+                    sidebarItems.forEach(item => {
+                        item.classList.remove("active");
+                        if (item.id === `sidebar-item-${current}`) {
+                            item.classList.add("active");
+                            
+                            // 移动端：如果是水平滚动的导航，需要平滑滚动到可见区域
+                            if (isMobile) {
+                                const parent = document.getElementById("sidebar-menu");
+                                const itemLeft = item.offsetLeft;
+                                const itemWidth = item.offsetWidth;
+                                const parentWidth = parent.offsetWidth;
+                                parent.scrollTo({
+                                    left: itemLeft - (parentWidth / 2) + (itemWidth / 2),
+                                    behavior: 'smooth'
+                                });
+                            }
+                        }
+                    });
+                }
+            });
+        }
+
+        // 页面初始化
+        window.addEventListener("load", initBookmarks);
+    </script>
+</body>
+</html>

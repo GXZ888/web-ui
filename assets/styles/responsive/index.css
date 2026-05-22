@@ -29,6 +29,12 @@
         max-width: 100%;
     }
     /* - Fixes End */
+
+    /* 施工中模块 Grid */
+    .construction-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
 }
 
 @media (min-width: 900px) and (max-width: 1440px) {
