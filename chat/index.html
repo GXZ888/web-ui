@@ -113,112 +113,120 @@
 
         /* 动态人设切换背景 */
         body.preset-mumu-active {
-            background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.25) 100%), 
+            background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.12) 100%), 
                               url(../assets/images/backgrounds/mumu_bg.jpg);
             background-size: cover;
-            background-position: center;
+            background-position: center 35%;
             background-repeat: no-repeat;
             background-attachment: fixed;
         }
         
         [data-theme="dark"] body.preset-mumu-active {
-            background-image: linear-gradient(to bottom, rgba(15, 16, 21, 0.35) 0%, rgba(15, 16, 21, 0.5) 100%), 
+            background-image: linear-gradient(to bottom, rgba(15, 16, 21, 0.2) 0%, rgba(15, 16, 21, 0.35) 100%), 
                               url(../assets/images/backgrounds/mumu_bg.jpg);
         }
 
         /* 降低聊天区域的整体底色和泡泡的不透明度，实现极度通透的磨砂玻璃透光效果 */
         body.preset-mumu-active .chat-pane {
-            background-color: rgba(255, 255, 255, 0.25) !important; 
-            border-color: rgba(255, 255, 255, 0.45) !important;
-            backdrop-filter: blur(12px) saturate(180%) !important;
-            -webkit-backdrop-filter: blur(12px) saturate(180%) !important;
+            background-color: rgba(255, 255, 255, 0.10) !important; 
+            border-color: rgba(255, 255, 255, 0.2) !important;
+            backdrop-filter: blur(16px) saturate(180%) !important;
+            -webkit-backdrop-filter: blur(16px) saturate(180%) !important;
         }
 
         [data-theme="dark"] body.preset-mumu-active .chat-pane {
-            background-color: rgba(15, 16, 21, 0.25) !important; 
-            border-color: rgba(255, 255, 255, 0.08) !important;
+            background-color: rgba(15, 16, 21, 0.10) !important; 
+            border-color: rgba(255, 255, 255, 0.04) !important;
         }
 
         body.preset-mumu-active .sidebar {
-            background-color: rgba(255, 255, 255, 0.25) !important; 
-            border-color: rgba(255, 255, 255, 0.45) !important;
-            backdrop-filter: blur(12px) saturate(180%) !important;
-            -webkit-backdrop-filter: blur(12px) saturate(180%) !important;
+            background-color: rgba(255, 255, 255, 0.10) !important; 
+            border-color: rgba(255, 255, 255, 0.2) !important;
+            backdrop-filter: blur(16px) saturate(180%) !important;
+            -webkit-backdrop-filter: blur(16px) saturate(180%) !important;
         }
 
         [data-theme="dark"] body.preset-mumu-active .sidebar {
-            background-color: rgba(15, 16, 21, 0.25) !important; 
-            border-color: rgba(255, 255, 255, 0.08) !important;
+            background-color: rgba(15, 16, 21, 0.10) !important; 
+            border-color: rgba(255, 255, 255, 0.04) !important;
         }
 
         body.preset-mumu-active .chat-pane-header {
-            background-color: rgba(255, 255, 255, 0.1) !important;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.25) !important;
+            background-color: rgba(255, 255, 255, 0.05) !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.12) !important;
         }
 
         [data-theme="dark"] body.preset-mumu-active .chat-pane-header {
-            background-color: rgba(0, 0, 0, 0.1) !important;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+            background-color: rgba(0, 0, 0, 0.05) !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03) !important;
         }
 
         body.preset-mumu-active .chat-pane-footer {
-            background-color: rgba(255, 255, 255, 0.1) !important;
-            border-top: 1px solid rgba(255, 255, 255, 0.25) !important;
+            background-color: rgba(255, 255, 255, 0.05) !important;
+            border-top: 1px solid rgba(255, 255, 255, 0.12) !important;
         }
 
         [data-theme="dark"] body.preset-mumu-active .chat-pane-footer {
-            background-color: rgba(0, 0, 0, 0.1) !important;
-            border-top: 1px solid rgba(255, 255, 255, 0.05) !important;
+            background-color: rgba(0, 0, 0, 0.05) !important;
+            border-top: 1px solid rgba(255, 255, 255, 0.03) !important;
         }
 
         /* 气泡大幅增加透明度，让猫娘背景极其通透 */
         body.preset-mumu-active .message-row.assistant .message-bubble {
-            background: rgba(255, 255, 255, 0.45) !important; 
-            border: 1px solid rgba(255, 255, 255, 0.6) !important;
-            backdrop-filter: blur(8px) !important;
-            -webkit-backdrop-filter: blur(8px) !important;
-            color: #0f172a !important; /* 深度石板灰保证文字极清晰 */
-            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.10) !important; 
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+            backdrop-filter: blur(12px) !important;
+            -webkit-backdrop-filter: blur(12px) !important;
+            color: #000000 !important; /* 纯黑配合高对比阴影保证极清晰 */
+            font-weight: 500;
+            text-shadow: 0 1px 4px rgba(255, 255, 255, 0.95), 0 1px 1px rgba(255, 255, 255, 0.95);
         }
 
         [data-theme="dark"] body.preset-mumu-active .message-row.assistant .message-bubble {
-            background: rgba(15, 16, 21, 0.45) !important; 
-            border: 1px solid rgba(255, 255, 255, 0.12) !important;
-            color: #f8fafc !important; /* 珍珠白保证暗色模式文字极清晰 */
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+            background: rgba(15, 16, 21, 0.10) !important; 
+            border: 1px solid rgba(255, 255, 255, 0.05) !important;
+            color: #ffffff !important; /* 纯白配合高对比阴影保证极清晰 */
+            font-weight: 500;
+            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.95), 0 1px 1px rgba(0, 0, 0, 0.95);
         }
 
         body.preset-mumu-active .message-row.user .message-bubble {
-            background: linear-gradient(135deg, rgba(73, 177, 245, 0.7) 0%, rgba(122, 192, 240, 0.7) 100%) !important;
-            border: 1px solid rgba(255, 255, 255, 0.35) !important;
-            backdrop-filter: blur(8px) !important;
-            -webkit-backdrop-filter: blur(8px) !important;
+            background: linear-gradient(135deg, rgba(73, 177, 245, 0.25) 0%, rgba(122, 192, 240, 0.25) 100%) !important;
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+            backdrop-filter: blur(12px) !important;
+            -webkit-backdrop-filter: blur(12px) !important;
+            color: #000000 !important;
+            font-weight: 500;
+            text-shadow: 0 1px 4px rgba(255, 255, 255, 0.9) , 0 1px 1px rgba(255, 255, 255, 0.9);
         }
 
         [data-theme="dark"] body.preset-mumu-active .message-row.user .message-bubble {
-            background: linear-gradient(135deg, rgba(30, 64, 175, 0.7) 0%, rgba(37, 99, 235, 0.7) 100%) !important;
-            border: 1px solid rgba(255, 255, 255, 0.15) !important;
+            background: linear-gradient(135deg, rgba(30, 64, 175, 0.25) 0%, rgba(37, 99, 235, 0.25) 100%) !important;
+            border: 1px solid rgba(255, 255, 255, 0.05) !important;
+            color: #ffffff !important;
+            font-weight: 500;
+            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9), 0 1px 1px rgba(0, 0, 0, 0.9);
         }
 
         body.preset-mumu-active .chat-input-wrapper {
-            background-color: rgba(255, 255, 255, 0.4) !important;
-            border: 2px solid rgba(255, 255, 255, 0.6) !important;
-            backdrop-filter: blur(8px) !important;
-            -webkit-backdrop-filter: blur(8px) !important;
+            background-color: rgba(255, 255, 255, 0.10) !important;
+            border: 1px solid rgba(255, 255, 255, 0.25) !important;
+            backdrop-filter: blur(12px) !important;
+            -webkit-backdrop-filter: blur(12px) !important;
         }
 
         [data-theme="dark"] body.preset-mumu-active .chat-input-wrapper {
-            background-color: rgba(15, 16, 21, 0.4) !important;
-            border: 2px solid rgba(255, 255, 255, 0.1) !important;
+            background-color: rgba(15, 16, 21, 0.10) !important;
+            border: 1px solid rgba(255, 255, 255, 0.06) !important;
         }
 
         body.preset-mumu-active .chat-input-wrapper:focus-within {
-            background-color: rgba(255, 255, 255, 0.65) !important;
+            background-color: rgba(255, 255, 255, 0.20) !important;
             border-color: var(--primary-color) !important;
         }
 
         [data-theme="dark"] body.preset-mumu-active .chat-input-wrapper:focus-within {
-            background-color: rgba(15, 16, 21, 0.65) !important;
+            background-color: rgba(15, 16, 21, 0.20) !important;
             border-color: var(--primary-color) !important;
         }
 
