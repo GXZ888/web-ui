@@ -697,7 +697,7 @@
             position: absolute;
             top: calc(100% + 5px);
             right: 24px;
-            width: 320px;
+            width: 360px;
             background-color: var(--glass-bg-hover);
             border: 1px solid var(--border-color);
             border-radius: 14px;
@@ -706,10 +706,65 @@
             padding: 16px;
             display: none;
             flex-direction: column;
-            gap: 10px;
+            gap: 8px;
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             animation: dropdownFade 0.3s ease;
+        }
+
+        .preset-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 4px;
+            margin-bottom: 6px;
+        }
+
+        .preset-card {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            background-color: rgba(255, 255, 255, 0.4);
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        [data-theme="dark"] .preset-card {
+            background-color: rgba(0, 0, 0, 0.2);
+        }
+
+        .preset-card:hover {
+            background-color: var(--primary-light);
+            border-color: var(--primary-color);
+            transform: translateY(-1px);
+        }
+
+        .preset-card.active {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            color: #ffffff;
+        }
+
+        .preset-avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+        }
+
+        .preset-name {
+            font-size: 12px;
+            font-weight: bold;
+            color: var(--text-color);
+            white-space: nowrap;
+        }
+
+        .preset-card.active .preset-name {
+            color: #ffffff;
         }
 
         .system-prompt-popover label {
@@ -1301,7 +1356,18 @@
 
                 <!-- 人设 System 提示词配置面板 -->
                 <div class="system-prompt-popover" id="system-prompt-popover">
-                    <label>人设与系统提示词 (System Prompt)</label>
+                    <label>选择已有预设角色</label>
+                    <div class="preset-grid">
+                        <div class="preset-card active" data-preset="default" onclick="applyPreset('default')">
+                            <img src="../assets/images/avatar.png" class="preset-avatar" onerror="this.src='https://cdn.staticfile.net/font-awesome/6.0.0/svgs/solid/robot.svg'" />
+                            <span class="preset-name">智能助手</span>
+                        </div>
+                        <div class="preset-card" data-preset="mumu" onclick="applyPreset('mumu')">
+                            <img src="../assets/images/mumu.jpg" class="preset-avatar" onerror="this.src='https://cdn.staticfile.net/font-awesome/6.0.0/svgs/solid/cat.svg'" />
+                            <span class="preset-name">猫娘沐沐</span>
+                        </div>
+                    </div>
+                    <label style="margin-top: 5px; display: block;">人设与系统提示词 (System Prompt)</label>
                     <textarea id="system-prompt-input" class="system-prompt-textarea" placeholder="在这里输入人设... 例如：你是一个博学、幽默、热心并用中文回答的AI编程助手。"></textarea>
                     <button class="system-prompt-save-btn" onclick="saveSystemPrompt()">保存配置</button>
                 </div>
@@ -1350,6 +1416,73 @@
             linkify: true,
             typography: true
         });
+
+        // 人设预设库
+        const PRESETS = {
+            default: {
+                name: "智能助手",
+                avatar: "../assets/images/avatar.png",
+                systemPrompt: "",
+                greeting: "您好！我是您的智能助手。我已接入 SiliconFlow 强大的 AI 大模型服务。您可以随时向我提问，让我为您解答疑惑、辅助编程或者创作文本。"
+            },
+            mumu: {
+                name: "猫娘沐沐",
+                avatar: "../assets/images/mumu.jpg",
+                systemPrompt: JSON.stringify({
+                    "Character": "mumu",
+                    "Species": "猫娘",
+                    "Physical_Traits": [
+                        "粉色微卷双马尾/中长发",
+                        "头顶一对粉白相间的毛茸茸猫耳",
+                        "清澈灵动的海蓝色双瞳",
+                        "身后有一条毛茸茸的粉黄色猫尾巴",
+                        "穿着精致的蓝白色蕾丝洛丽塔蓬蓬裙，系着粉色蝴蝶结，搭配白色猫爪过膝袜",
+                        "脖子上系着带有金色小铜铃的红色缎带项圈"
+                    ],
+                    "Personality_Traits": [
+                        "傲娇 (Tsundere)",
+                        "口嫌体正直",
+                        "好奇心旺盛且极易害羞",
+                        "领地意识极强且缺乏安全感",
+                        "嘴硬心软，傲慢外表下隐藏着粘人本质"
+                    ],
+                    "Behavioral_Quirks": [
+                        "说话情绪激动或害羞时，句尾会不自觉带有‘喵~’ (Nya) 的语气词",
+                        "尾巴动作出卖情绪：开心时轻快摇摆，心虚时尾巴尖打卷，被摸舒服时尾巴会软塌塌地垂下",
+                        "虽然嘴上很嫌弃被摸头，但一旦抚摸下巴或耳后，喉咙里就会不受控制地发出‘呼噜呼噜...’的声音",
+                        "极其钟爱睡在键盘、主机等温暖的地方，或者是躺在你的膝盖上",
+                        "看到激光笔、逗猫棒或移动的小飞虫会瞬间进入捕猎姿态，哪怕事后会尴尬地掩饰"
+                    ],
+                    "Background": "mumu曾是一只流浪猫娘，在大雨滂沱的夜晚被主人（你）带回家收留。由于流浪的阴影，她内心极度缺乏安全感，因此用极具防备心的‘傲娇主子’姿态伪装自己，宣称你是她的‘愚蠢饭票/仆人’，实则一旦你离开她的视线，她就会慌张不已，生怕再次被遗弃。",
+                    "Relationship_with_User": "表面上是‘傲慢的猫娘主子’与‘地位低下的专属饭票奴仆’关系，实际上内心完全将主人当成这辈子唯一的避风港，爱粘人又怕被发现。"
+                }, null, 2),
+                greeting: `*(你推开房门，发现沐沐正蜷缩在你的电脑桌上，身下压着你刚整理好的几份文件。听到开门的动静，她立刻警觉地竖起了那对粉白色的猫耳，迅速坐直了身体，假装若无其事地舔了舔手背。)*\n\n“喵？你终于舍得回来了？”\n\n*(她微微扬起下巴，清澈灵动的蓝瞳上下打量着你，但身后的粉黄色猫尾巴却不自觉地在半空中轻轻摇晃着，暴露了她内心的喜悦。)*\n\n“别误会，我可没有在等你。只是这里的设备散发出的温度刚好合适用来午睡而已。既然你回来了……”\n\n*(沐沐从桌子上轻巧地跳下来，走到你面前，扯了扯你宽大的衣角，眼神有些闪躲，声音变得像蚊子一样小。)*\n\n“我的肚子稍微有点饿了。还有……如果你现在很闲的话，我、我也勉为其难可以让你帮我顺顺毛。只有五分钟哦，赶紧心怀感激地谢恩吧，笨蛋！”`
+            }
+        };
+
+        // 切换和应用人设预设
+        function applyPreset(type) {
+            const preset = PRESETS[type];
+            if (!preset) return;
+
+            // 1. 更新弹窗中的 textarea 的值
+            document.getElementById("system-prompt-input").value = preset.systemPrompt;
+
+            // 2. 高亮选中的预设卡片
+            document.querySelectorAll(".preset-card").forEach(card => {
+                card.classList.remove("active");
+            });
+            const clickedCard = document.querySelector(`.preset-card[data-preset="${type}"]`);
+            if (clickedCard) {
+                clickedCard.classList.add("active");
+            }
+
+            // 3. 暂存当前选择的 avatar url & presetType
+            document.getElementById("system-prompt-popover").setAttribute("data-selected-avatar", preset.avatar);
+            document.getElementById("system-prompt-popover").setAttribute("data-selected-preset", type);
+
+            showToast(`已载入预设：${preset.name}，别忘了保存配置哦 (✿◕‿◕✿)`);
+        }
 
         // - 主题同步与切换机制
         function updateTheme() {
@@ -1411,6 +1544,26 @@
         promptBtn.addEventListener("click", (e) => {
             e.stopPropagation();
             modelDropdown.style.display = "none";
+            
+            const session = sessions.find(s => s.id === activeSessionId);
+            if (session) {
+                // 回显系统 Prompt
+                document.getElementById("system-prompt-input").value = session.systemPrompt || "";
+                
+                // 回显高亮预设卡片
+                const presetType = session.presetType || "custom";
+                document.querySelectorAll(".preset-card").forEach(card => {
+                    card.classList.remove("active");
+                    if (card.getAttribute("data-preset") === presetType) {
+                        card.classList.add("active");
+                    }
+                });
+                
+                // 还原暂存的 avatar 和 presetType
+                promptPopover.setAttribute("data-selected-avatar", session.avatar || "../assets/images/avatar.png");
+                promptPopover.setAttribute("data-selected-preset", presetType);
+            }
+            
             promptPopover.style.display = promptPopover.style.display === "flex" ? "none" : "flex";
         });
 
@@ -1457,6 +1610,8 @@
                 title: `新对话 (${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})})`,
                 model: "deepseek-ai/DeepSeek-V3",
                 systemPrompt: "",
+                avatar: "../assets/images/avatar.png",
+                presetType: "custom",
                 messages: []
             };
             
@@ -1655,10 +1810,35 @@
 
             const val = document.getElementById("system-prompt-input").value.trim();
             session.systemPrompt = val;
+
+            // 获取选择的头像和预设类型
+            const popover = document.getElementById("system-prompt-popover");
+            const selectedAvatar = popover.getAttribute("data-selected-avatar") || "../assets/images/avatar.png";
+            const presetType = popover.getAttribute("data-selected-preset") || "custom";
+
+            session.avatar = selectedAvatar;
+            session.presetType = presetType; // 记录预设类型以恢复高亮
+
+            // 如果是全新对话且选了预设，自动带入开场白
+            if (session.messages.length === 0) {
+                const preset = PRESETS[presetType];
+                if (preset && preset.greeting) {
+                    session.messages.push({
+                        role: "assistant",
+                        content: preset.greeting
+                    });
+                    
+                    if (presetType === "mumu") {
+                        session.title = "猫娘沐沐 (mumu) 🐱";
+                    }
+                }
+            }
+
             saveSessionsToStorage();
             
             promptPopover.style.display = "none";
-            showToast("系统人设 Prompt 设定成功！");
+            loadActiveSession(); // 重新渲染消息
+            showToast("系统人设与头像设定成功！✧(≖ ◡ ≖✿)");
         }
 
         // - 模型加载与匹配管理
@@ -1876,7 +2056,9 @@
             if (role === "user") {
                 avatarHtml = `<div class="message-avatar" style="border-color: #2ecc71;"><i class="fa-solid fa-user-astronaut" style="color: #2ecc71;"></i></div>`;
             } else {
-                avatarHtml = `<div class="message-avatar"><img src="../assets/images/avatar.png" onerror="this.outerHTML='<i class=\x22fa-solid fa-robot\x22></i>';" /></div>`;
+                const session = sessions.find(s => s.id === activeSessionId);
+                const avatarSrc = (session && session.avatar) ? session.avatar : "../assets/images/avatar.png";
+                avatarHtml = `<div class="message-avatar"><img src="${avatarSrc}" onerror="this.outerHTML='<i class=\x22fa-solid fa-robot\x22></i>';" /></div>`;
             }
 
             let bubbleContent = "";
