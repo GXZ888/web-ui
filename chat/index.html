@@ -1400,7 +1400,8 @@
         
         // 经典预设热门模型
         const POPULAR_MODELS = [
-            { id: "deepseek-ai/DeepSeek-V3", name: "DeepSeek V3 (首选/极力推荐)", desc: "最聪明的多模态/文字模型，通用对话全能王" },
+            { id: "deepseek-ai/DeepSeek-V4-Flash", name: "DeepSeek V4-Flash (极速/首选)", desc: "最新极速多模态/文字MoE模型，极低延迟与超大上下文" },
+            { id: "deepseek-ai/DeepSeek-V3", name: "DeepSeek V3 (经典推荐)", desc: "高性能多模态/文字模型，通用对话全能王" },
             { id: "deepseek-ai/DeepSeek-R1", name: "DeepSeek R1 (深度思考)", desc: "最强推理大模型，展示思维链，解决复杂逻辑" },
             { id: "Qwen/Qwen2.5-7B-Instruct", name: "Qwen 2.5 7B (免费/极速)", desc: "阿里开源主力模型，速度飞快，中文表现优秀" },
             { id: "Qwen/Qwen2.5-Coder-32B-Instruct", name: "Qwen 2.5 Coder 32B (代码利器)", desc: "阿里专门优化版代码大模型，解决编程疑问" },
@@ -1608,7 +1609,7 @@
             const newSession = {
                 id: id,
                 title: `新对话 (${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})})`,
-                model: "deepseek-ai/DeepSeek-V3",
+                model: "deepseek-ai/DeepSeek-V4-Flash",
                 systemPrompt: "",
                 avatar: "../assets/images/avatar.png",
                 presetType: "custom",
