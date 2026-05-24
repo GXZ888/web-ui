@@ -61,7 +61,8 @@
 
 ### 你知道吗？
 
-这个项目原本是基于 [wexuo/home](https://github.com/wexuo/home) 的修改版，现在因为各种问题我完全重写了整个项目。现在本项目的页面排版布局仍然使用了原作者的设计，但代码和设计理念是完全不同的~
+*   本项目是由 [OuOich/ACG-Home](https://github.com/OuOich/ACG-Home) 项目修改与重构而来的版本。
+*   该项目原本是基于 [wexuo/home](https://github.com/wexuo/home) 的修改版，我们保留了优秀的设计排版与布局，并对整个项目的代码逻辑进行了重构，带来了更丰富模块化功能与更优质的用户体验。
 
 ## 如何使用？
 
