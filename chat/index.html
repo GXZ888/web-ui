@@ -1260,7 +1260,7 @@
 
         .chat-textarea {
             flex: 1;
-            height: 24px;
+            height: 28px;
             max-height: 120px;
             background: none;
             border: none;
@@ -1268,9 +1268,9 @@
             color: var(--text-color);
             font-size: 14px;
             font-weight: bold;
-            line-height: 1.5;
+            line-height: 1.4;
             resize: none;
-            padding: 2px 10px;
+            padding: 4px 10px;
             scrollbar-width: thin;
         }
 
@@ -2160,7 +2160,7 @@
 
             // 2. 清空并自适应重置输入框高度
             input.value = "";
-            input.style.height = "24px";
+            input.style.height = "28px";
 
             // 3. 追加用户消息至数据层并渲染
             const userMsg = { role: "user", content: text };
@@ -2406,8 +2406,8 @@
         
         // 输入框高度自动缩放
         textarea.addEventListener("input", function() {
-            this.style.height = "24px";
-            this.style.height = (this.scrollHeight - 16) + "px";
+            this.style.height = "28px";
+            this.style.height = this.scrollHeight + "px";
         });
 
         // 监听回车发送
