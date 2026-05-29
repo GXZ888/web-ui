@@ -2327,7 +2327,7 @@
             lastMove = {r, c};
             playPlayerMoveSound();
             
-            const winLine = checkWinCondition(r, c, 1);
+            const winLine = checkGomokuWinCondition(r, c, 1);
             if (winLine) {
                 winningLine = winLine;
                 gameActive = false;
@@ -2365,7 +2365,7 @@
             return true;
         }
         
-        function checkWinCondition(r, c, color) {
+        function checkGomokuWinCondition(r, c, color) {
             const directions = [
                 [0, 1], [1, 0], [1, 1], [1, -1]
             ];
@@ -2567,7 +2567,7 @@
                         board[r][c] = 2;
                         
                         // 3.1 胜手判断 (如果直接可以赢，秒下该点)
-                        if (checkWinCondition(r, c, 2)) {
+                        if (checkGomokuWinCondition(r, c, 2)) {
                             board[r][c] = 0;
                             targetMove = {r, c};
                             break;
@@ -2619,7 +2619,7 @@
             
             saveSnapshot();
             
-            const winLine = checkWinCondition(r, c, 2);
+            const winLine = checkGomokuWinCondition(r, c, 2);
             if (winLine) {
                 winningLine = winLine;
                 gameActive = false;
