@@ -1,9 +1,18 @@
-/* - 标题 */
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-    color: #77c6ff;
+/* - 标题（深色模式）*/
+h1, h2, h3, h4, h5, h6 {
+    color: #e8f0ff;
+}
+h2 {
+    border-image: linear-gradient(180deg, #49b1f5, #a78bfa) 1;
+}
+
+/* 文本选中（深色模式） */
+::selection {
+    background: rgba(73, 177, 245, 0.30);
+    color: #f0f4ff;
+}
+
+/* 分割线（深色模式） */
+hr::before {
+    background: #12141a;
 }

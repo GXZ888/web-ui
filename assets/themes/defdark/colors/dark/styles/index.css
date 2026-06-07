@@ -1,75 +1,148 @@
-/* 全局样式 */
+/* =====================================================
+   ACG Web — Dark Mode Override
+   深色模式全局覆盖
+   ===================================================== */
+
+/* ---------- 全局 ---------- */
 body {
-    background-color: #1c1c1c;
-    color: #ffffff;
+    --bg-body:      #12141a;
+    --bg-card:      rgba(30, 33, 44, 0.82);
+    --bg-settings:  rgba(20, 80, 130, 0.55);
+    --text-main:    #e2e8f0;
+    --text-sub:     #94a3b8;
+    --text-title:   #f0f4ff;
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --shadow-card:  0 4px 24px rgba(0, 0, 0, 0.35), 0 1px 4px rgba(0, 0, 0, 0.25);
+    --shadow-hover: 0 12px 40px rgba(73, 177, 245, 0.18), 0 4px 12px rgba(0, 0, 0, 0.40);
+    --grad-card:    linear-gradient(135deg, rgba(30, 33, 44, 0.90) 0%, rgba(20, 25, 38, 0.80) 100%);
+
+    background-color: var(--bg-body);
+    background-image:
+        radial-gradient(ellipse at 20% 0%,  rgba(73, 177, 245, 0.08) 0%, transparent 55%),
+        radial-gradient(ellipse at 80% 10%, rgba(167, 139, 250, 0.07) 0%, transparent 50%);
+    color: var(--text-main);
 }
 
-/* 内容版块 */
-.primary-container > .right-area > .content-page {
-    background-color: #282828;
+/* ---------- 波浪底边颜色 ---------- */
+.wave-path-1,
+.wave-path-2 {
+    fill: #12141a;
 }
 
-/* - 左侧卡片 */
+/* ---------- 左侧卡片 ---------- */
 .primary-container > .left-area > .cards > .card-item {
-    background-color: #282828;
+    background: var(--bg-card);
+    border-color: var(--glass-border);
 }
-/* - 浏览设置 */
+
+/* 个人信息卡 */
+.primary-container > .left-area > .cards > .card-item#personal-info {
+    background: linear-gradient(145deg, rgba(30, 33, 44, 0.92) 0%, rgba(18, 25, 40, 0.85) 100%);
+}
+
+/* 名字颜色 */
+.primary-container > .left-area > .cards > .card-item#personal-info > .name {
+    background: linear-gradient(135deg, #49b1f5 0%, #c4b5fd 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* 一言链接 */
+.primary-container > .left-area > .cards > .card-item#hitokoto > .content a#hitokoto-text {
+    color: var(--text-sub);
+}
+
+/* 浏览设置 */
 .primary-container > .left-area > .cards > .card-item > .content > .settings-item {
-    background-color: #206fa0;
-    color: #ffffff;
+    background: linear-gradient(135deg, rgba(20, 80, 130, 0.55) 0%, rgba(40, 30, 80, 0.45) 100%);
+    border-color: rgba(73, 177, 245, 0.15);
+}
+.primary-container > .left-area > .cards > .card-item > .content > .settings-item > .title {
+    color: #c8d8f0;
 }
 
-/* - 主题设置 */
-.primary-container > .left-area > .cards > .card-item > .content > .settings-item > .themes {
+/* ---------- 内容版块 ---------- */
+.primary-container > .right-area > .content-page {
+    background: var(--bg-card);
+    border-color: var(--glass-border);
+    box-shadow: var(--shadow-card);
+}
+.primary-container > .right-area > .content-page::before {
+    background: linear-gradient(135deg, #49b1f5, #a78bfa);
+    opacity: 0.08;
 }
 
-.primary-container > .left-area > .cards > .card-item > .content > .settings-item > .themes > .theme-item {
-}
-/* - 主题设置 End */
-/* - 浏览设置 End */
-
-/* - 左侧卡片 End */
-
-/* Dark Mode Override for construction cards */
+/* ---------- Construction 卡片 ---------- */
 .construction-card {
-    background-color: #282828;
-    box-shadow: 0 4px 8px 6px rgba(0, 0, 0, 0.2);
+    background: var(--bg-card);
+    border-color: var(--glass-border);
+    box-shadow: var(--shadow-card);
 }
-
 .construction-card:hover {
-    box-shadow: 0 8px 16px 8px rgba(73, 177, 245, 0.2);
+    box-shadow: var(--shadow-hover);
+    border-color: rgba(73, 177, 245, 0.25);
+}
+.construction-card::before {
+    background: linear-gradient(
+        to right,
+        rgba(255,255,255,0) 0%,
+        rgba(255,255,255,0.06) 50%,
+        rgba(255,255,255,0) 100%
+    );
 }
 
 .construction-title {
-    color: #ffffff;
+    color: var(--text-title);
 }
-
 .construction-status {
-    color: #aaaaaa;
+    color: var(--text-sub);
 }
 
 .progress-bar-container {
-    background-color: #3e3e3e;
+    background-color: rgba(255,255,255,0.08);
 }
 
-.construction-card::after {
-    background: radial-gradient(circle, rgba(73, 177, 245, 0.15) 0%, rgba(40, 40, 40, 0) 70%);
+/* ---------- 标题 ---------- */
+h1, h2, h3, h4, h5, h6 {
+    color: var(--text-title);
+}
+h2 {
+    color: #e8f0ff;
+}
+h3 { color: #c8d8f0; }
+
+/* ---------- 超链接 ---------- */
+a {
+    color: #7ac0f0;
+}
+.right-area a:hover {
+    color: #49b1f5;
 }
 
-.construction-card:hover::after {
-    background: radial-gradient(circle, rgba(73, 177, 245, 0.25) 0%, rgba(40, 40, 40, 0) 70%);
+/* ---------- 分割线 ---------- */
+hr {
+    border-top-color: rgba(73, 177, 245, 0.20);
+}
+hr::before {
+    color: #49b1f5;
+    background: #12141a;
 }
 
-/* - 页脚 */
+/* ---------- 页脚 ---------- */
 .footer {
-    background-color: #171717;
+    background: linear-gradient(180deg, rgba(18, 22, 32, 0.8) 0%, rgba(12, 15, 22, 0.95) 100%);
+    border-top-color: rgba(73, 177, 245, 0.12);
+    color: var(--text-sub);
 }
-
-.footer > .line-break {
-    color: #aaaaaa;
-}
-
 .footer .icp-link {
-    color: #ffffff;
+    color: var(--text-sub);
 }
-/* - 页脚 End */
+.footer a {
+    color: #7ac0f0;
+}
+
+/* ---------- 卡片标题 ---------- */
+.primary-container > .left-area > .cards > .card-item > .title {
+    color: var(--text-title);
+}
