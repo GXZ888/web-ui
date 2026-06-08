@@ -1,0 +1,15 @@
+{
+  "dxt_version": "0.1",
+  "name": "vision-mcp",
+  "version": "1.0.0",
+  "description": "Allow pure language models to analyze images.",
+  "author": { "name": "ChengCheng" },
+  "server": {
+    "type": "node",
+    "entry_point": "index.mjs",
+    "mcp_config": {
+      "command": "node",
+      "args": ["${__dirname}/index.mjs"]
+    }
+  }
+}

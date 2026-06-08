@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="zh">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>AI 识图 - MCP</title>
+        <link rel="icon" href="../favicon.ico" />
+
+        <link rel="stylesheet" href="../assets/styles/loaders.css" />
+        <iframe id="global-loader-iframe" src="../loaders/global.html"></iframe>
+
+        <link rel="stylesheet" href="https://cdn.staticfile.net/font-awesome/6.0.0/css/all.min.css" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;900&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet" />
+
+        <link rel="stylesheet" href="../assets/styles/elements.css" />
+        <link rel="stylesheet" href="../assets/styles/index.css" />
+        <link rel="stylesheet" href="../assets/styles/responsive/index.css" />
+
+        <style>
+            .vision-container {
+                display: flex;
+                flex-direction: column;
+                gap: 20px;
+                padding: 20px;
+            }
+            .upload-area {
+                border: 2px dashed rgba(255, 255, 255, 0.2);
+                border-radius: 12px;
+                padding: 40px;
+                text-align: center;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                background: rgba(255, 255, 255, 0.05);
+            }
+            .upload-area:hover {
+                background: rgba(255, 255, 255, 0.1);
+                border-color: rgba(255, 255, 255, 0.4);
+            }
+            .upload-area img {
+                max-width: 100%;
+                max-height: 300px;
+                border-radius: 8px;
+                display: none;
+                margin: 0 auto;
+            }
+            .upload-area i {
+                font-size: 48px;
+                color: rgba(255, 255, 255, 0.8);
+                margin-bottom: 15px;
+            }
+            .prompt-input {
+                width: 100%;
+                padding: 12px 15px;
+                border-radius: 8px;
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                background: rgba(0, 0, 0, 0.2);
+                color: white;
+                font-family: inherit;
+                outline: none;
+                transition: border-color 0.3s;
+            }
+            .prompt-input:focus {
+                border-color: #2ecc71;
+            }
+            .analyze-btn {
+                padding: 12px 24px;
+                border: none;
+                border-radius: 8px;
+                background: linear-gradient(90deg, #2ecc71 0%, #a3e4d7 100%);
+                color: #1c1c1c;
+                font-weight: bold;
+                cursor: pointer;
+                transition: transform 0.2s, opacity 0.2s;
+                align-self: flex-end;
+            }
+            .analyze-btn:hover {
+                opacity: 0.9;
+                transform: translateY(-2px);
+            }
+            .analyze-btn:disabled {
+                opacity: 0.5;
+                cursor: not-allowed;
+                transform: none;
+            }
+            .result-area {
+                background: rgba(0, 0, 0, 0.2);
+                border-radius: 12px;
+                padding: 20px;
+                min-height: 100px;
+                white-space: pre-wrap;
+                border: 1px solid rgba(255, 255, 255, 0.1);
+            }
+            .status-text {
+                font-size: 0.9em;
+                color: #a3e4d7;
+                margin-top: 10px;
+                display: none;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="page-head" style="height: 250px;">
+            <div class="page-head-particles">
+                <span></span><span></span><span></span><span></span><span></span>
+            </div>
+            <div class="page-head-overlay"></div>
+            <span class="title">AI 识图</span>
+            <div class="page-head-wave">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 80" preserveAspectRatio="none">
+                    <path class="wave-path-1" d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z"/>
+                    <path class="wave-path-2" d="M0,55 C360,20 720,70 1080,35 C1260,20 1380,50 1440,55 L1440,80 L0,80 Z"/>
+                </svg>
+            </div>
+        </div>
+
+        <div class="primary-container" style="max-width: 800px; margin: 0 auto;">
+            <div class="card-item vision-container">
+                <div class="upload-area" id="uploadArea" onclick="document.getElementById('fileInput').click()">
+                    <i class="fa-solid fa-cloud-arrow-up" id="uploadIcon"></i>
+                    <p id="uploadText">点击或拖拽上传图片</p>
+                    <img id="previewImage" alt="Preview" />
+                    <input type="file" id="fileInput" accept="image/*" style="display: none;" onchange="handleFileSelect(event)" />
+                </div>
+                
+                <input type="text" id="promptInput" class="prompt-input" placeholder="输入提示词（如：描述这张图片、图里的内容是什么？）" value="详细描述这张图片的内容" />
+                
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <a href="../index.html" style="color: rgba(255,255,255,0.6); text-decoration: none;"><i class="fa-solid fa-arrow-left"></i> 返回主页</a>
+                    <button class="analyze-btn" id="analyzeBtn" onclick="analyzeImage()">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i> 开始分析
+                    </button>
+                </div>
+                
+                <div class="status-text" id="statusText">连接到 MCP Server...</div>
+                
+                <div class="result-area" id="resultArea">
+                    等待上传图片...
+                </div>
+            </div>
+        </div>
+
+        <script src="./script.js"></script>
+        <script>
+            // 加载动画逻辑
+            const minimumLoadingTime = 1000;
+            const startTime = new Date().getTime();
+            window.addEventListener("load", function () {
+                const currentTime = new Date().getTime();
+                const elapsedTime = currentTime - startTime;
+                const delay = Math.max(0, minimumLoadingTime - elapsedTime);
+                setTimeout(() => {
+                    document.getElementById("global-loader-iframe").className = "end";
+                    document.body.style.overflow = "unset";
+                }, delay);
+            });
+        </script>
+    </body>
+</html>

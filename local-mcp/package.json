@@ -1,0 +1,13 @@
+{
+  "name": "vision-mcp-local",
+  "version": "1.0.0",
+  "description": "Local Stdio MCP Server for Vision",
+  "type": "module",
+  "main": "index.mjs",
+  "scripts": {
+    "start": "node index.mjs"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.1"
+  }
+}
