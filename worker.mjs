@@ -95,6 +95,51 @@ export default {
     async fetch(request, env, ctx) {
         const url = new URL(request.url);
         
+        // Simple REST API for the frontend UI
+        if (url.pathname === "/api/analyze" && request.method === "POST") {
+            try {
+                const body = await request.json();
+                const { image_base64, prompt } = body;
+                
+                if (!image_base64) {
+                    return new Response("Missing image_base64", { status: 400 });
+                }
+
+                const response = await fetch("https://api.longcat.chat/openai/v1/chat/completions", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": "Bearer ak_2Bg5gE19A8zv1kT9NH1o09vU2TF4y"
+                    },
+                    body: JSON.stringify({
+                        model: "LongCat-2.0-Preview",
+                        messages: [
+                            {
+                                role: "user",
+                                content: [
+                                    { type: "text", text: prompt || "描述这张图片" },
+                                    { type: "image_url", image_url: { url: image_base64 } }
+                                ]
+                            }
+                        ],
+                        max_tokens: 1000
+                    })
+                });
+
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    return new Response(`API Error: ${response.status} ${errorText}`, { status: 500 });
+                }
+
+                const data = await response.json();
+                return new Response(data.choices[0].message.content, {
+                    headers: { "Access-Control-Allow-Origin": "*", "Content-Type": "text/plain;charset=UTF-8" }
+                });
+            } catch (err) {
+                return new Response(`Error: ${err.message}`, { status: 500 });
+            }
+        }
+
         // Route MCP requests
         if (url.pathname.startsWith("/mcp")) {
             // Add CORS headers for local development testing
