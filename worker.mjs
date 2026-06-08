@@ -44,11 +44,16 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         const finalImageUrl = image_base64 || image_url;
 
         try {
+            const apiKey = globalThis.longcatApiKey;
+            if (!apiKey) {
+                throw new Error("LONGCAT_API_KEY secret is not configured in Cloudflare Workers");
+            }
+
             const response = await fetch("https://api.longcat.chat/openai/v1/chat/completions", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    "Authorization": "Bearer ak_2Bg5gE19A8zv1kT9NH1o09vU2TF4y"
+                    "Authorization": `Bearer ${apiKey}`
                 },
                 body: JSON.stringify({
                     model: "LongCat-2.0-Preview",
@@ -93,6 +98,7 @@ server.connect(transport).catch(console.error);
 
 export default {
     async fetch(request, env, ctx) {
+        globalThis.longcatApiKey = env.LONGCAT_API_KEY;
         const url = new URL(request.url);
         
         // Simple REST API for the frontend UI
@@ -105,11 +111,16 @@ export default {
                     return new Response("Missing image_base64", { status: 400 });
                 }
 
+                const apiKey = env.LONGCAT_API_KEY;
+                if (!apiKey) {
+                    return new Response("LONGCAT_API_KEY secret is not configured", { status: 500 });
+                }
+
                 const response = await fetch("https://api.longcat.chat/openai/v1/chat/completions", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
-                        "Authorization": "Bearer ak_2Bg5gE19A8zv1kT9NH1o09vU2TF4y"
+                        "Authorization": `Bearer ${apiKey}`
                     },
                     body: JSON.stringify({
                         model: "LongCat-2.0-Preview",

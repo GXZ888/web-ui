@@ -53,12 +53,16 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
             throw new Error("Must provide either image_url, image_path, or image_base64");
         }
 
-        try {
+            const apiKey = process.env.LONGCAT_API_KEY;
+            if (!apiKey) {
+                throw new Error("LONGCAT_API_KEY environment variable is not set");
+            }
+
             const response = await fetch("https://api.longcat.chat/openai/v1/chat/completions", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    "Authorization": "Bearer ak_2Bg5gE19A8zv1kT9NH1o09vU2TF4y"
+                    "Authorization": `Bearer ${apiKey}`
                 },
                 body: JSON.stringify({
                     model: "LongCat-2.0-Preview",
