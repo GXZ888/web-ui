@@ -25,7 +25,7 @@
             "dark": {
                 "displayName": "Dark",
                 "files": {
-                    "styles": ["elements.css", "index.css"],
+                    "styles": ["elements.css", "index.css", "design-refresh.css"],
                     "scripts": []
                 },
                 "icon": {
